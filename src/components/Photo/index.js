@@ -2,36 +2,27 @@ import React, { useContext, useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { GalleryContext } from "../../context/GalleryContext";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import DoubleClick from "../../helpers/DoubleClick";
 
 export default function index({ id, uri, isFavorite, navigation }) {
   const [lastPress, setLastPress] = useState(0);
-  const onDoublePress = () => {
-    const time = new Date().getTime();
-    const delta = time - lastPress;
 
-    const DOUBLE_PRESS_DELAY = 400;
-    if (delta < DOUBLE_PRESS_DELAY) {
-      // Success double press
-      console.log("double press");
-      switchFavorite(id, isFavorite);
-    } else {
-      console.log("one touch");
-      navigation.navigate("DetailPhoto", { id, uri, isFavorite, navigation });
-    }
-    setLastPress(time);
-  };
   const { deleteImageInList, switchFavorite } = useContext(GalleryContext);
-  const onPress = () => {
-    console.log("Hello");
-  };
 
   const onDeleteImage = () => {
     deleteImageInList(id);
   };
+
   return (
-    <View
-      style={styles.photo}
-      onStartShouldSetResponder={(evt) => onDoublePress()}
+    <DoubleClick
+      styles={styles.photo}
+      singleTap={() => {
+        navigation.navigate("DetailPhoto", { id, uri, isFavorite });
+      }}
+      doubleTap={() => {
+        switchFavorite(id, isFavorite);
+      }}
+      delay={200}
     >
       <Image
         style={styles.image}
@@ -46,14 +37,11 @@ export default function index({ id, uri, isFavorite, navigation }) {
         <MaterialIcons name="cancel" size={30} color="#000"></MaterialIcons>
       </TouchableOpacity>
       {isFavorite && (
-        <TouchableOpacity
-          style={styles.containerfavoriteIcon}
-          onPress={onDeleteImage}
-        >
+        <TouchableOpacity style={styles.containerfavoriteIcon}>
           <MaterialIcons name="favorite" size={25} color="#000"></MaterialIcons>
         </TouchableOpacity>
       )}
-    </View>
+    </DoubleClick>
   );
 }
 
@@ -71,6 +59,8 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
+    width: "100%",
+    height: "100%",
   },
   containerDeleteIcon: {
     position: "absolute",
