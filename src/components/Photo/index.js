@@ -1,9 +1,25 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { GalleryContext } from "../../context/GalleryContext";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-export default function index({ id, uri }) {
-  const { deleteImageInList } = useContext(GalleryContext);
+
+export default function index({ id, uri, isFavorite }) {
+  const [lastPress, setLastPress] = useState(0);
+  const onDoublePress = () => {
+    const time = new Date().getTime();
+    const delta = time - lastPress;
+
+    const DOUBLE_PRESS_DELAY = 400;
+    if (delta < DOUBLE_PRESS_DELAY) {
+      // Success double press
+      console.log("double press");
+      switchFavorite(id, isFavorite);
+    } else {
+      console.log("one touch");
+    }
+    setLastPress(time);
+  };
+  const { deleteImageInList, switchFavorite } = useContext(GalleryContext);
   const onPress = () => {
     console.log("Hello");
   };
@@ -12,21 +28,31 @@ export default function index({ id, uri }) {
     deleteImageInList(id);
   };
   return (
-    <TouchableOpacity style={styles.photo} onPress={onPress}>
+    <View
+      style={styles.photo}
+      onStartShouldSetResponder={(evt) => onDoublePress()}
+    >
       <Image
         style={styles.image}
         source={{
           uri: uri,
         }}
       ></Image>
-
       <TouchableOpacity
         style={styles.containerDeleteIcon}
         onPress={onDeleteImage}
       >
         <MaterialIcons name="cancel" size={30} color="#000"></MaterialIcons>
       </TouchableOpacity>
-    </TouchableOpacity>
+      {isFavorite && (
+        <TouchableOpacity
+          style={styles.containerfavoriteIcon}
+          onPress={onDeleteImage}
+        >
+          <MaterialIcons name="favorite" size={25} color="#000"></MaterialIcons>
+        </TouchableOpacity>
+      )}
+    </View>
   );
 }
 
@@ -52,5 +78,14 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 15,
     padding: 0,
+  },
+  containerfavoriteIcon: {
+    position: "absolute",
+    right: 0,
+    bottom: 0,
+    backgroundColor: "#fff",
+    padding: 0,
+    borderTopLeftRadius: 15,
+    padding: 2,
   },
 });

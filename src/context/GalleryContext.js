@@ -15,12 +15,20 @@ const GalleryProvider = ({ children }) => {
     setListGallery(newList);
   };
 
+  const switchFavorite = (id, isFavorite) => {
+    const list = listGallery.map((photo) =>
+      photo.id == id ? { ...photo, isFavorite: !isFavorite } : photo
+    );
+    setListGallery(list);
+  };
+
   return (
     <GalleryContext.Provider
       value={{
         listGallery: listGallery,
         addImageInList: addImageInList,
         deleteImageInList: deleteImageInList,
+        switchFavorite: switchFavorite,
       }}
     >
       {children}

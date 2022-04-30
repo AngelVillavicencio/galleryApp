@@ -14,7 +14,9 @@ import ModalPhoto from "../../components/ModalPhoto/index";
 
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 function HomeScreen() {
-  const renderItem = ({ item }) => <Photo id={item.id} uri={item.uri} />;
+  const renderItem = ({ item }) => (
+    <Photo id={item.id} uri={item.uri} isFavorite={item.isFavorite} />
+  );
   const { listGallery } = useContext(GalleryContext);
   return (
     <>
