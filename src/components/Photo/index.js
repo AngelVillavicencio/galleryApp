@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { GalleryContext } from "../../context/GalleryContext";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
-export default function index({ id, uri, isFavorite }) {
+export default function index({ id, uri, isFavorite, navigation }) {
   const [lastPress, setLastPress] = useState(0);
   const onDoublePress = () => {
     const time = new Date().getTime();
@@ -16,6 +16,7 @@ export default function index({ id, uri, isFavorite }) {
       switchFavorite(id, isFavorite);
     } else {
       console.log("one touch");
+      navigation.navigate("DetailPhoto", { id, uri, isFavorite, navigation });
     }
     setLastPress(time);
   };

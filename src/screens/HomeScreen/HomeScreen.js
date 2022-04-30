@@ -13,9 +13,14 @@ import { GalleryContext } from "../../context/GalleryContext";
 import ModalPhoto from "../../components/ModalPhoto/index";
 
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-function HomeScreen() {
+function HomeScreen({ navigation }) {
   const renderItem = ({ item }) => (
-    <Photo id={item.id} uri={item.uri} isFavorite={item.isFavorite} />
+    <Photo
+      navigation={navigation}
+      id={item.id}
+      uri={item.uri}
+      isFavorite={item.isFavorite}
+    />
   );
   const { listGallery } = useContext(GalleryContext);
   return (

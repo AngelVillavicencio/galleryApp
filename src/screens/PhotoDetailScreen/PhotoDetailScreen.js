@@ -1,8 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
-function PhotoDetailScreen() {
+import { StyleSheet, Text, View, Image } from "react-native";
+function PhotoDetailScreen({ route }) {
+  const { id, uri, isFavorite } = route.params;
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Detail Screen</Text>
+      <Image
+        style={styles.image}
+        source={{
+          uri: uri,
+        }}
+      ></Image>
     </View>
   );
 }
@@ -15,5 +21,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  image: {
+    flex: 1,
+    width: "100%",
   },
 });

@@ -30,7 +30,13 @@ export default function App() {
               ),
             }}
           />
-          <Stack.Screen name="DetailPhoto" component={PhotoDetailScreen} />
+          <Stack.Screen
+            name="DetailPhoto"
+            component={PhotoDetailScreen}
+            options={{
+              title: "Image",
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </GalleryProvider>
