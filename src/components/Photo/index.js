@@ -38,7 +38,11 @@ export default function index({ id, uri, isFavorite, navigation }) {
       </TouchableOpacity>
       {isFavorite && (
         <TouchableOpacity style={styles.containerfavoriteIcon}>
-          <MaterialIcons name="favorite" size={25} color="#000"></MaterialIcons>
+          <MaterialIcons
+            name="favorite"
+            size={25}
+            color="#3b5998"
+          ></MaterialIcons>
         </TouchableOpacity>
       )}
     </DoubleClick>

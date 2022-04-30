@@ -11,8 +11,43 @@ import {
 import Photo from "../../components/Photo/index";
 import { GalleryContext } from "../../context/GalleryContext";
 import ModalPhoto from "../../components/ModalPhoto/index";
-
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import FavoritesScreen from "../FavoritesScreen/FavoritesScreen";
+
+const TabBottom = createBottomTabNavigator();
+
+function HomeTabs() {
+  return (
+    <TabBottom.Navigator activeColor="#3b5998">
+      <TabBottom.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          headerShown: false,
+          tabBarLabel: "All photos",
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="photo" color={color} size={26} />
+          ),
+        }}
+      />
+      <TabBottom.Screen
+        name="Favorites"
+        component={FavoritesScreen}
+        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          tabBarLabel: "Favorites",
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="favorite" color={color} size={26} />
+          ),
+        }}
+      />
+    </TabBottom.Navigator>
+  );
+}
+
 function HomeScreen({ navigation }) {
   const renderItem = ({ item }) => (
     <Photo
@@ -54,7 +89,7 @@ function HomeScreen({ navigation }) {
   );
 }
 
-export default HomeScreen;
+export default HomeTabs;
 
 const styles = StyleSheet.create({
   container: {
