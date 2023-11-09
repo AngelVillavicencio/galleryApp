@@ -1,15 +1,23 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, ScrollView, SafeAreaView } from "react-native";
+
 function PhotoDetailScreen({ route }) {
-  const { id, uri, isFavorite } = route.params;
+  const { id, uri, descripcion } = route.params;
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Image
-        style={styles.image}
-        source={{
-          uri: uri,
-        }}
-      ></Image>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+        <Image
+          style={styles.image}
+          source={{
+            uri: uri,
+          }}
+        ></Image>
+
+        <View style={styles.descriptionContainer}>
+          <Text style={styles.descriptionTitle}>Descripción</Text>
+          <Text style={styles.descriptionText}>{descripcion}</Text>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -19,11 +27,28 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+  },
+  scrollView: {
+    paddingHorizontal: 20,
   },
   image: {
-    flex: 1,
     width: "100%",
+    height: 450,
+    alignSelf: "center",
+  },
+  descriptionContainer: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: "#eee",
+    width: "95%",
+    alignSelf: "center",
+  },
+  descriptionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  descriptionText: {
+    fontSize: 16,
   },
 });

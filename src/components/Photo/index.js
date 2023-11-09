@@ -1,23 +1,42 @@
 import React, { useContext, useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from "react-native";
 import { GalleryContext } from "../../context/GalleryContext";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import DoubleClick from "../../helpers/DoubleClick";
 
-export default function index({ id, uri, isFavorite, navigation }) {
+export default function index({ id, uri, isFavorite, descripcion, navigation }) {
   const [lastPress, setLastPress] = useState(0);
 
   const { deleteImageInList, switchFavorite } = useContext(GalleryContext);
 
-  const onDeleteImage = () => {
-    deleteImageInList(id);
+  const onDeleteImage = async () => {
+
+    Alert.alert(
+      "Seguro de eliminar la imagen?",
+      "Si borra la imagen, no podrás recuperarla",
+      [
+        {
+          text: "Cancelar",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "Si",
+          onPress: async () => deleteImageInList(id)
+        }
+      ]
+    )
+
+
+
+
   };
 
   return (
     <DoubleClick
       styles={styles.photo}
       singleTap={() => {
-        navigation.navigate("DetailPhoto", { id, uri, isFavorite });
+        navigation.navigate("DetailPhoto", { id, uri, isFavorite, descripcion });
       }}
       doubleTap={() => {
         switchFavorite(id, isFavorite);

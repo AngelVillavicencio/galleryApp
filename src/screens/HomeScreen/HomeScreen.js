@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -15,6 +15,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FavoritesScreen from "../FavoritesScreen/FavoritesScreen";
+import PerfilScreen from "../PerfilScreen/PerfilScreen";
 
 const TabBottom = createBottomTabNavigator();
 
@@ -22,25 +23,35 @@ function HomeTabs() {
   return (
     <TabBottom.Navigator activeColor="#3b5998">
       <TabBottom.Screen
-        name="Home"
+        name="HomeScreen"
         component={HomeScreen}
         options={{
           headerShown: false,
-          tabBarLabel: "All photos",
+          tabBarLabel: "Todas las rocas",
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="photo" color={color} size={26} />
           ),
         }}
       />
       <TabBottom.Screen
-        name="Favorites"
+        name="Favoritos"
         component={FavoritesScreen}
-        options={{ headerShown: false }}
         options={{
           headerShown: false,
-          tabBarLabel: "Favorites",
+          tabBarLabel: "Favoritos",
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="favorite" color={color} size={26} />
+          ),
+        }}
+      />
+      <TabBottom.Screen
+        name="Perfil"
+        component={PerfilScreen}
+        options={{
+          headerShown: false,
+          tabBarLabel: "Perfil",
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="person" color={color} size={26} />
           ),
         }}
       />
@@ -55,9 +66,19 @@ function HomeScreen({ navigation }) {
       id={item.id}
       uri={item.uri}
       isFavorite={item.isFavorite}
+      descripcion={item.descripcion}
     />
   );
-  const { listGallery } = useContext(GalleryContext);
+  const { listGallery, getImagesFireStore } = useContext(GalleryContext);
+  useEffect(() => {
+
+    (async () => {
+      console.log("images fire store")
+      getImagesFireStore();
+    })()
+
+
+  }, [])
   return (
     <>
       {listGallery.length == 0 ? (
